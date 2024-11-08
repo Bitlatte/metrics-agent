@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+      
+      - name: Build binaries
+        run: |
+          # Create builds directory
+          mkdir -p builds
+          
+          # Build for Linux (amd64)
+          GOOS=linux GOARCH=amd64 go build -v -o builds/metrics-agent-linux-amd64 ./cmd/agent
+          
+          # Build for Linux (arm64)
+          GOOS=linux GOARCH=arm64 go build -v -o builds/metrics-agent-linux-arm64 ./cmd/agent
+          
+          # Build for macOS (amd64)
+          GOOS=darwin GOARCH=amd64 go build -v -o builds/metrics-agent-darwin-amd64 ./cmd/agent
+          
+          # Build for macOS (arm64)
+          GOOS=darwin GOARCH=arm64 go build -v -o builds/metrics-agent-darwin-arm64 ./cmd/agent
+          
+          # Build for Windows (amd64)
+          GOOS=windows GOARCH=amd64 go build -v -o builds/metrics-agent-windows-amd64.exe ./cmd/agent
+          
+          # Create SHA256 checksums
+          cd builds
+          sha256sum * > checksums.txt
+          cd ..
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2  # Updated to v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            builds/metrics-agent-linux-amd64
+            builds/metrics-agent-linux-arm64
+            builds/metrics-agent-darwin-amd64
+            builds/metrics-agent-darwin-arm64
+            builds/metrics-agent-windows-amd64.exe
+            builds/checksums.txt
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          node-version: '20' # Explicitly specify Node.js version
