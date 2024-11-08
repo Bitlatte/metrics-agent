@@ -11,6 +11,11 @@ const (
 	MetricMemoryUsage MetricType = "memory.usage"
 	MetricMemoryTotal MetricType = "memory.total"
 	MetricMemoryFree  MetricType = "memory.free"
+
+	MetricDiskUsage MetricType = "disk.usage"
+	MetricDiskUsed  MetricType = "disk.used"
+	MetricDiskFree  MetricType = "disk.free"
+	MetricDiskTotal MetricType = "disk.total"
 )
 
 type ValueType string

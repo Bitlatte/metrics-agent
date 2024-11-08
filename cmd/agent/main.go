@@ -141,5 +141,21 @@ func initializeCollectors(config *config.Config) (*collectors.Manager, error) {
 		log.Printf("Memory collector registered successfully")
 	}
 
+	if config.Collection.Collectors.Disk.Enabled {
+		log.Printf("Registering Disk collector with interval %v", config.Collection.Collectors.Disk.Interval)
+		collector := collectors.NewDiskCollector(config.Collection.Collectors.Disk.Interval, config.Collection.Collectors.Disk.IgnorePaths)
+
+		if collector == nil {
+			log.Printf("Warning: Disk collector was not created properly")
+		}
+
+		err := manager.RegisterCollector("disk", collector)
+		if err != nil {
+			log.Printf("Failed to register Disk collector: %v", err)
+			return nil, err
+		}
+		log.Printf("Disk collector registered successfully")
+	}
+
 	return manager, nil
 }

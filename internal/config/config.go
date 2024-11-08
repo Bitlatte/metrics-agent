@@ -16,14 +16,20 @@ type CollectionConfig struct {
 	BatchSize  uint8         `yaml:"batch_size"`
 	Interval   time.Duration `yaml:"interval"`
 	Collectors struct {
-		CPU    CPUCollectorConfig `yaml:"cpu"`
-		Memory CollectorConfig    `yaml:"memory"`
+		CPU    CPUCollectorConfig  `yaml:"cpu"`
+		Memory CollectorConfig     `yaml:"memory"`
+		Disk   DiskCollectorConfig `yaml:"disk"`
 	}
 }
 
 type CPUCollectorConfig struct {
 	CollectorConfig `yaml:",inline"`
 	IncludeTemps    bool `yaml:"include_temps"`
+}
+
+type DiskCollectorConfig struct {
+	CollectorConfig `yaml:",inline"`
+	IgnorePaths     []string `yaml:"ignore_paths"`
 }
 
 type CollectorConfig struct {
@@ -54,6 +60,18 @@ func (c *Config) Validate() error {
 		}
 	}
 
+	if c.Collection.Collectors.Memory.Enabled {
+		if err := validateInterval("Memory", c.Collection.Collectors.Memory.Interval); err != nil {
+			return err
+		}
+	}
+
+	if c.Collection.Collectors.Disk.Enabled {
+		if err := validateInterval("Disk", c.Collection.Collectors.Disk.Interval); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -63,8 +81,9 @@ func Load() (*Config, error) {
 			BatchSize: 100,
 			Interval:  time.Second * 15,
 			Collectors: struct {
-				CPU    CPUCollectorConfig `yaml:"cpu"`
-				Memory CollectorConfig    `yaml:"memory"`
+				CPU    CPUCollectorConfig  `yaml:"cpu"`
+				Memory CollectorConfig     `yaml:"memory"`
+				Disk   DiskCollectorConfig `yaml:"disk"`
 			}{
 				CPU: CPUCollectorConfig{
 					CollectorConfig: CollectorConfig{
@@ -74,8 +93,15 @@ func Load() (*Config, error) {
 					IncludeTemps: false,
 				},
 				Memory: CollectorConfig{
-					Enabled:  true,
+					Enabled:  false,
 					Interval: time.Second * 10,
+				},
+				Disk: DiskCollectorConfig{
+					CollectorConfig: CollectorConfig{
+						Enabled:  false,
+						Interval: time.Second * 60,
+					},
+					IgnorePaths: []string{"/proc", "/sys", "/dev"},
 				},
 			},
 		},

@@ -3,9 +3,13 @@ collection:
   interval: 15s
   collectors:
     cpu:
-      enabled: true
-      interval: 5s
+      enabled: false
+      interval: 10s
       include_temps: true
     memory:
       enabled: false
       interval: 15s
+    disk:
+      enabled: true
+      interval: 30s
+      ignore_paths: ["/tmp"]
