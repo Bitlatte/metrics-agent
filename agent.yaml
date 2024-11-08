@@ -1,0 +1,11 @@
+collection:
+  batch_size: 50
+  interval: 15s
+  collectors:
+    cpu:
+      enabled: true
+      interval: 5s
+      include_temps: true
+    memory:
+      enabled: false
+      interval: 15s
