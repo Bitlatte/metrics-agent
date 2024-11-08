@@ -68,10 +68,10 @@ func Load() (*Config, error) {
 			}{
 				CPU: CPUCollectorConfig{
 					CollectorConfig: CollectorConfig{
-						Enabled:  true,
+						Enabled:  false,
 						Interval: time.Second * 60,
 					},
-					IncludeTemps: true,
+					IncludeTemps: false,
 				},
 				Memory: CollectorConfig{
 					Enabled:  true,
