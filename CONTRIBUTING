@@ -1,0 +1,59 @@
+# Contributing to Metrics Agent
+
+Thank you for your interest in contributing to Metrics Agent! We welcome contributions from the community to help make this project better. Please take a moment to review this document before submitting any contributions.
+
+## Code of Conduct
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+## How to Contribute
+
+1. Fork the repository on GitHub.
+2. Clone your forked repository to your local machine.
+3. Create a new branch for your changes:
+   ```
+   git checkout -b my-feature-branch
+   ```
+4. Make your changes and commit them with descriptive commit messages.
+5. Push your changes to your forked repository:
+   ```
+   git push origin my-feature-branch
+   ```
+6. Open a pull request on the main repository and describe your changes.
+
+## Guidelines
+
+- Follow the Go coding style and best practices.
+- Write clear, concise, and well-commented code.
+- Ensure your changes are well-tested and do not break existing functionality.
+- Keep pull requests focused and limit them to a single feature or bug fix.
+- Provide a clear and detailed description in your pull request of what your changes do.
+
+## Development Setup
+
+1. Fork the repository on GitHub.
+2. Clone your forked repository:
+   ```
+   git clone https://github.com/your-username/metrics-agent.git
+   ```
+3. Create a new branch for your changes:
+   ```
+   git checkout -b my-feature-branch
+   ```
+4. Make your changes and test them thoroughly.
+5. Commit your changes with descriptive commit messages.
+6. Push your changes to your forked repository:
+   ```
+   git push origin my-feature-branch
+   ```
+7. Open a pull request on the main repository.
+
+## Reporting Issues
+
+If you encounter any bugs or have suggestions for improvements, please open an issue on the GitHub repository. Provide as much detail as possible, including steps to reproduce the issue if applicable.
+
+## Contact
+
+If you have any questions or need further assistance, feel free to contact the project maintainers at [maintainer@example.com](mailto:maintainer@example.com).
+
+Thank you for contributing to Metrics Agent!
